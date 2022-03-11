@@ -1,16 +1,30 @@
-import { useGetApiGroups} from "../service/default";
+import { useGetApiGroups, useDeleteApiGroupsIdUser} from "../service/default";
 import { UsersIcon, UserIcon } from "@heroicons/react/outline";
+import { Group } from "../pages/api/groups/index";
+import { UseMutationOptions } from "react-query";
+import { Z_UNKNOWN } from "zlib";
 
 
 export function GroupList(){
 
   const { data: groups } = useGetApiGroups();
+  const { mutate: deleteMary2 } = useDeleteApiGroupsIdUser();
+  // let id = 'mary'
+  // let user = 'Mary'
+  // mutate({id, user})
 
   const deleteMary = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     const button: HTMLButtonElement = event.currentTarget;
     console.log("Oh no! You are going to delete Mary, what'd she do to you?!")
+
+    deleteMary2({id:'1b51dacb-1d5d-4dc0-98d0-38aaaa5847b8', user:'mary'})
+    // mutationDelete({id: 'mary', user: 'Mary'})
+    console.log(groups)
+
+
+    
   };
 
   // const { data: id } = useGetAPIGrupsIdHook();
@@ -22,7 +36,9 @@ export function GroupList(){
               <article tw="shadow-md bg-white rounded-md text-mono-800 p-4 flex flex-col items-center gap-1">
                 <UsersIcon tw="w-16 h-16 p-0.5 border-4 border-mono-400 rounded-full my-4" />
                 <header tw="text-lg font-bold">{group.name}</header>
-                <div tw="text-sm text-mono-500">{group.desc}</div>
+                <div tw="text-sm text-mono-500">{group.desc}{group.uuid}</div>
+                <div>Users:</div>
+                <div>{group.members}</div>
               </article>
             ))}
             <button onClick={deleteMary} tw="place-self-center shadow-md bg-white rounded-md text-center  text-mono-800 p-2">Delete Mary</button>

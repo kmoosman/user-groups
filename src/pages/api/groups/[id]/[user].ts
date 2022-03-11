@@ -37,7 +37,7 @@ import { groups } from "../../groups";
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "DELETE") {
     groups.get(req.query.id)?.members.delete(req.query.user);
-    res.status(204).json({});
+    res.status(200).json({ groups: [...groups.values()].map((g) => ({ ...g, members: [...g.members] })) });
   } else if (req.method === "PUT") {
     groups.get(req.query.id)?.members.add(req.query.user);
     res.status(201).json({});
