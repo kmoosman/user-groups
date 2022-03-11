@@ -377,10 +377,10 @@ export const useGetApiUsers = <
   TData = AsyncReturnType<ReturnType<typeof useGetApiUsersHook>>,
   TError = unknown
 >(options?: {
-  query?: UseQueryOptions<
-    AsyncReturnType<ReturnType<typeof useGetApiUsersHook>>,
-    TError,
-    TData
+    query?: 
+      UseQueryOptions<AsyncReturnType<ReturnType<typeof useGetApiUsersHook>>,
+      TError,
+      TData
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const { query: queryOptions } = options || {};
