@@ -34,7 +34,10 @@ addMembers(addGroup("Admin", "This group is for administrators of the platform."
   "mary",
   "kathy",
 ] as UserId[]);
-addGroup("Employee", "This group is for internal users.");
+addMembers(addGroup("Employee", "This group is for internal users."), [
+  "mary",
+] as UserId[]);
+;
 addGroup("Client", "This group is for clients of the platform.");
 addGroup("Expert", "This group is for experts on the platform.");
 

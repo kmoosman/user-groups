@@ -1,11 +1,13 @@
-import { useGetApiUsers, useGetApiUsersId } from "../service/default";
+import { useGetApiUsers, useGetApiUsersId, useGetApiGroups } from "../service/default";
 import { UsersIcon, UserIcon } from "@heroicons/react/outline";
 import { useState } from 'react';
+import { groups } from "../pages/api/groups";
 
 
 export function UsersList(){
     const { data: users } = useGetApiUsers();
     const { data: user } = useGetApiUsersId();
+    const { data: groups, refetch } = useGetApiGroups();
     
     // let addNewUserEnabled = false
 
@@ -42,6 +44,13 @@ return (
             <div tw="shadow-md bg-white rounded-md text-mono-800 p-8 flex flex-col items-center gap-2 text-lg">
                 <UserIcon tw="w-8 h-8" />
                 {user.name}
+                <div tw="flex-row">
+                    {groups?.groups.map((group) => {
+                        if (group.members.includes(user.uuid)) {
+                            return <span tw="flex-row float-left shadow-md text-center text-xs dark:bg-purple-400 rounded-md text-white h-6 p-1 m-2" >{group.name}</span>
+                        }
+                    })}
+                </div>
             </div>
             ))}
             <button onClick={addUserClicked} tw="place-self-center shadow-md bg-white rounded-full text-center  text-mono-800 h-8 w-8">+</button>
