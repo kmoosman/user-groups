@@ -47,7 +47,7 @@ return (
                 <div tw="flex-row">
                     {groups?.groups.map((group) => {
                         if (group.members.includes(user.uuid)) {
-                            return <span tw="flex-row float-left shadow-md text-center text-xs dark:bg-purple-400 rounded-md text-white h-6 p-1 m-2" >{group.name}</span>
+                            return <span tw="flex-row float-left shadow-md text-center text-xs dark:bg-purple-400 rounded-md text-white h-6 p-1 m-2 w-20" >{group.name}</span>
                         }
                     })}
                 </div>
