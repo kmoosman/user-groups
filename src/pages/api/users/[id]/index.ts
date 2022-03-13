@@ -14,7 +14,7 @@ import { users, UserId } from "../../users"
  *         name: id
  *         schema:
  *           type: string
- *   put:
+ *   post:
  *     description: Add a new user
  *     responses:
  *       201:
@@ -29,7 +29,7 @@ import { users, UserId } from "../../users"
  */
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "PUT") {
+  if (req.method === "POST") {
     const name = req.query.id
     const uuid = name.toLowerCase() as UserId;
     users.set(uuid, {
