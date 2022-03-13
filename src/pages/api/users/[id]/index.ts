@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { users } from "../";
+import { users, UserId } from "../../users"
 
 /**
  * @swagger
@@ -14,9 +14,32 @@ import { users } from "../";
  *         name: id
  *         schema:
  *           type: string
+ *   put:
+ *     description: Add a new user
+ *     responses:
+ *       201:
+ *         description: If the operation was successful
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ * 
+ * 
  */
+
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  res.status(200).json({ user: users.get(req.query.id) });
+  if (req.method === "PUT") {
+    const name = req.query.id
+    const uuid = name.toLowerCase() as UserId;
+    users.set(uuid, {
+      uuid,
+      name,
+    });
+    res.status(201).json({ users: [...users.values()] });
+  } else {
+      res.status(200).json({ user: users.get(req.query.id) });
+    }
 };
 
 export default handler;

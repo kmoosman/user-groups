@@ -12,48 +12,23 @@ export function GroupList(){
 
   const { data: groups, refetch } = useGetApiGroups();
 
+  const [stateGroups, setGroups] = useState(groups)
+
 
   //Move this behavior 
   const { mutateAsync: removeUserFromGroup, isSuccess } = useDeleteApiGroupsIdUser();
 
 
-  const removeUser = (event: React.MouseEvent<HTMLButtonElement>, user: string, groupId: string) => {
+  const removeUser = async (event: React.MouseEvent<HTMLButtonElement>, user: string, groupId: string) => {
     event.preventDefault();
-    console.log(groups)
+        const button: HTMLButtonElement = event.currentTarget;
 
-    const button: HTMLButtonElement = event.currentTarget;
-    console.log("Oh no! You are going to delete a user, what'd she do to you?!")
-    console.log(groupId)
-    console.log(groupId)
-    console.log(user)
-    // const mutation = useMutation(addTodo)
- 
-    
-      removeUserFromGroup({id: groupId, user: user})
-   
-      // **NOTE: Is rerendering when you click away then click back, need to figure out how to get it to 
-      // rerender and remove the item from group in the onSuccess completion for the hook
-      // refetch()
-      console.log('done')
-    
-  
-   
-    // removeUserFromGroup({id: groupId, user: user})
-    // console.log(groups.size)
-    
-    
-    
-    
-    // mutationDelete({id: 'mary', user: 'Mary'})
-    
-    // console.log(groups.groups.get('72763b9d-733d-4767-ab92-179ed7318262'))
+        removeUserFromGroup({id: groupId, user: user})
+        setGroups(groups)
+        refetch()
 
-
-
-    
   };
 
-  // const { data: id } = useGetAPIGrupsIdHook();
   return (
         <section tw="bg-mono-50 dark:bg-mono-700 w-1/3 flex float-right rounded-md mr-4">
           <div tw="grid max-w-4xl gap-8 p-8 sm:grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(1,1fr)] w-full">
@@ -65,7 +40,7 @@ export function GroupList(){
                 <div tw="text-sm text-mono-500">{group.desc}
                 <h2 tw="sm:col-span-1 md:col-span-1 text-xl font-bold mt-2">Users:</h2>
                 <div>{group.members.map((member) => {
-                  return <div tw="flex place-content-between">
+                  return <div tw="flex place-content-between" >
                             <span tw="place-self-center ml-2 text-base font-bold"> {member.charAt(0).toUpperCase() + member.slice(1)} </span>
                             <button onClick={(event)=> removeUser(event, member,group.uuid)} tw="place-self-center shadow-md bg-red-300 rounded-md text-center text-sm text-mono-800 p-2 mt-4">Remove</button>
                         </div> 
