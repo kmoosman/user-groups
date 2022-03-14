@@ -54,7 +54,7 @@ return (
         <div tw="grid max-w-4xl gap-8 p-8 grid-cols-[repeat(1,1fr)] sm:grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(1,1fr)] w-full">
         <h2 tw="col-span-1 sm:col-span-1 md:col-span-1 text-2xl font-bold">Users</h2>
             {allUsers?.userData?.users.map((user) => (
-                <User user={user} allGroups={allGroups} key={user.allGroups}/>
+                <User user={user} allGroups={allGroups} key={user.uuid}/>
             ))}
             <button onClick={addUserClicked} tw="place-self-center shadow-md bg-white rounded-full text-center  text-mono-800 h-8 w-8">+</button>
             { isAddNewUserEnabled ? <div tw="shadow-md bg-white rounded-md text-mono-800 p-8 flex flex-col items-center gap-2 text-lg ">

@@ -37,9 +37,6 @@ const Home: NextPage = () => {
     }
   }, [userStatus, userData, groups]);
 
-  // console.log(groups)
-
-
   return (
     <div tw="dark:bg-mono-900 bg-blue-500 dark:text-white min-h-screen flex flex-col">
       <Head>
