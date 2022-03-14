@@ -17,25 +17,30 @@ const Home: NextPage = () => {
   useRef();
 
   //Groups data fetch & store to state
-  const { data, status: groupStatus, refetch } = useGetApiGroups();
-  const [groups, setGroups] = useState(data)
+  const { data, status: groupStatus, refetch } = useGetApiGroups({
+    query: {
+      onSuccess: (data) => {
+        setGroups(data);
+      }
+    }
+  });
   
 
-  useEffect(() => {
-    if (groupStatus === 'success') {
-      setGroups({ data });
-    }
-  }, [groupStatus, data]);
 
   //Users data fetch & store to state
-  const { data: userData, status: userStatus} = useGetApiUsers();
-  const [users, setUsers] = useState(userData)
-
-  useEffect(() => {
-    if (userStatus === 'success') {
-      setUsers({ userData });
+  const { data: userData, status: userStatus} = useGetApiUsers({
+    query: {
+      onSuccess: (data) => {
+        setUsers(data);
+        console.log(data)
+        
+      }
     }
-  }, [userStatus, userData, groups]);
+  });
+
+  const [users, setUsers] = useState(userData)
+  const [groups, setGroups] = useState(data)
+  
 
   return (
     <div tw="dark:bg-mono-900 bg-blue-500 dark:text-white min-h-screen flex flex-col">

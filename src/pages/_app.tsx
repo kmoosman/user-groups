@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { GlobalStyles } from "twin.macro";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <QueryClientProvider client={client}>
           <Component {...pageProps} />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </>
     </DndProvider>

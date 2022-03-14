@@ -1,11 +1,15 @@
 import { useDeleteApiGroupsIdUser, usePutApiGroupsIdUser} from "../service/default";
 import { UsersIcon} from "@heroicons/react/outline";
 import React, { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import {useDrop} from "react-dnd";
 import { groups } from "../pages/api/groups/index";
 
 
+
 export function GroupList({allGroups, setGroups}){
+
+  const queryClient = useQueryClient();
 
 //Drag & Drop
 const [{canDrop, isOver}, drop] = useDrop(() => ({
@@ -23,10 +27,23 @@ const addUserToGroup = (item) => {
   let newGroups = groups
     addUserToGroupHook({id: groupId, user: item.id})
     allGroups?.data?.groups[0].members.push(item.id);
-
+    queryClient.invalidateQueries('/api/groups')
 }
-  const { mutateAsync: removeUserFromGroup, isSuccess } = useDeleteApiGroupsIdUser();
-  const { mutateAsync: addUserToGroupHook } = usePutApiGroupsIdUser();
+  const { mutateAsync: removeUserFromGroup, isSuccess } = useDeleteApiGroupsIdUser({
+    mutation: {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries('/api/groups')
+      }
+    }
+  });
+
+  const { mutateAsync: addUserToGroupHook } = usePutApiGroupsIdUser({
+    mutation: {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries('/api/users')
+      }
+    }
+  });
   
 
   const removeUser = async (event: React.MouseEvent<HTMLButtonElement>, user: string, groupId: string) => {
@@ -36,8 +53,8 @@ const addUserToGroup = (item) => {
         removeUserFromGroup({id: groupId, user: user})
 
         //get the index & remove the user from AllGroups to set state 
-        const indexOfMember = allGroups.data.groups.filter((group) => group.uuid === groupId)[0].members.indexOf(user);
-        indexOfMember != -1 ? allGroups.data.groups.filter((group) => group.uuid === groupId)[0].members.splice(indexOfMember, 1) : null 
+        const indexOfMember = allGroups.groups.filter((group) => group.uuid === groupId)[0].members.indexOf(user);
+        indexOfMember != -1 ? allGroups.groups.filter((group) => group.uuid === groupId)[0].members.splice(indexOfMember, 1) : null 
 
         //set state
         setGroups(allGroups)    
@@ -47,7 +64,7 @@ const addUserToGroup = (item) => {
         <section tw="bg-mono-50 dark:bg-mono-700 w-1/3 flex float-right rounded-md mr-20" ref={drop}>
           <div tw="grid max-w-4xl gap-8 p-8 sm:grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(1,1fr)] w-full">
             <h2 tw="sm:col-span-1 md:col-span-1 text-2xl font-bold">Groups</h2>
-              { allGroups?.data?.groups.map((group) => {
+              { allGroups?.groups.map((group) => {
                           return  <article tw="shadow-md bg-white rounded-md text-mono-800 p-4 flex flex-col items-center gap-1" key={group.uuid}> 
                               <UsersIcon tw="w-16 h-16 p-0.5 border-4 border-mono-400 rounded-full my-4" />
                               <header tw="text-lg font-bold">{group.name}</header>
