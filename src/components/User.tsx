@@ -17,7 +17,7 @@ function User(user) {
         <UserIcon tw="w-8 h-8" />
         {user.user.name}
             <div tw="flex-row">
-                {user.allGroups?.data?.groups.map((group) => {
+                {user.allGroups?.groups.map((group) => {
                     if (group.members.includes(user.user.uuid)) {
                         return <span key={group.members} tw="flex-row float-left shadow-md text-center text-xs dark:bg-purple-400 rounded-md text-white h-6 p-1 m-2 w-20" >{group.name}</span>
                     }

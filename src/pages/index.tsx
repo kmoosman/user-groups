@@ -20,8 +20,7 @@ const Home: NextPage = () => {
   const { data, status: groupStatus, refetch } = useGetApiGroups({
     query: {
       onSuccess: (data) => {
-        // const [groups, setGroups] = useState(data)
-        setGroups({ data });
+        setGroups(data);
       }
     }
   });
@@ -32,7 +31,6 @@ const Home: NextPage = () => {
   const { data: userData, status: userStatus} = useGetApiUsers({
     query: {
       onSuccess: (data) => {
-        // const [groups, setGroups] = useState(data)
         setUsers(data);
         console.log(data)
         
