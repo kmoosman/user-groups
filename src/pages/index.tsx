@@ -3,44 +3,51 @@ import Head from "next/head";
 import { useRef, useState, useEffect } from "react";
 import { Footer } from "../components/Footer";
 import { GroupList } from "../components/GroupList";
-import { UsersList } from "../components/Users";
+import { Users } from "../components/Users";
 import { useGetApiGroups, useGetApiUsers, useGetApiUsersId
 , useGetApiGroupsId } from "../service/default";
 import { UsersIcon, UserIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { getStaticProps } from "./swagger";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const Home: NextPage = () => {
   const content = 
   useRef();
 
   //Groups data fetch & store to state
-  const { data, status: groupStatus } = useGetApiGroups();
+  const { data, status: groupStatus, refetch } = useGetApiGroups();
   const [groups, setGroups] = useState(data)
+  
 
   useEffect(() => {
     if (groupStatus === 'success') {
-      console.log("was successful")
       setGroups({ data });
-      console.log(data)
-      console.log(groups)
     }
   }, [groupStatus, data]);
 
   //Users data fetch & store to state
-  const { data: users, status: userStatus } = useGetApiUsers();
-  const [tempUser, setTempUser] = useState('')
+  const { data: userData, status: userStatus} = useGetApiUsers();
+  const [users, setUsers] = useState(userData)
 
   useEffect(() => {
     if (userStatus === 'success') {
+      setUsers({ userData });
+    }
+    
       console.log("update to users was successful")
-      alert('You have set a new user ' + tempUser)
+      // refetch()
+      // setTempUser({users})
+      // alert('You have set a new user ' + tempUser)
       //will come back to set state once the API post works 
       // setGroups({ users });
       // console.log(data)
       // console.log(users)
-    }
-  }, [userStatus, users, tempUser]);
+
+  }, [userStatus, userData, groups]);
+
+  // console.log(groups)
 
 
   return (
@@ -64,8 +71,8 @@ const Home: NextPage = () => {
       </header>
 
       <main tw="place-content-between" ref={content}>
-      <GroupList allGroups={groups} removeGroup={setGroups} />
-      <UsersList allUsers={users} allGroups={groups} addUser={setTempUser}/> 
+      <GroupList allGroups={groups} setGroups={setGroups}  />
+      <Users allUsers={users} allGroups={groups} setUsers={setUsers}/> 
       </main>
 
       <Footer />

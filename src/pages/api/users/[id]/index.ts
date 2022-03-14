@@ -36,7 +36,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       uuid,
       name,
     });
-    res.status(201).json({ users: [...users.values()] });
+    res.status(201).json({ userData: {users: [...users.values()]}  });
   } else {
       res.status(200).json({ user: users.get(req.query.id) });
     }
