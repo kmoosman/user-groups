@@ -35,16 +35,6 @@ const Home: NextPage = () => {
     if (userStatus === 'success') {
       setUsers({ userData });
     }
-    
-      console.log("update to users was successful")
-      // refetch()
-      // setTempUser({users})
-      // alert('You have set a new user ' + tempUser)
-      //will come back to set state once the API post works 
-      // setGroups({ users });
-      // console.log(data)
-      // console.log(users)
-
   }, [userStatus, userData, groups]);
 
   // console.log(groups)

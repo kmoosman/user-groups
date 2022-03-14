@@ -1,7 +1,6 @@
 import { useGetApiUsers, useGetApiUsersId, useGetApiGroups } from "../service/default";
 import { UsersIcon, UserIcon } from "@heroicons/react/outline";
 import { useState } from 'react';
-// import { groups } from "../pages/api/groups";
 import {useDrag} from "react-dnd";
 import User from './User';
 import axios from 'axios';
@@ -10,26 +9,7 @@ import axios from 'axios';
 
 export function Users({allUsers, allGroups, setUsers}){
 
-    
-    // const [{isDragging}, drag] = useDrag(() => ({
-    //     type: "div",
-    //     item: {id: id},
-    //     collect: (monitor) => ({
-    //         isDragging: !!monitor.isDragging(),
-    //     })
-    // }))
-    // const { data: users } = useGetApiUsers();
-    
-    // const { data: groups, refetch } = useGetApiGroups();
-    // const { data: user } = useGetApiUsersId();
-    let addNewUserEnabled = false
-
-    /**
- * Removes a user from a group
- */
-
-
-
+// form input values
 const [values, setValue] = useState({
         id: "",
         user: ""
@@ -47,7 +27,7 @@ const addUserClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
 };
 
 
-// Todo: Move this or refactor it so it isn't rerendering every component 
+// Todo: Move this or refactor it for more efficient rerendering
 const handlerUserNameChange = (event) => {
     let name = event.target.value
     setValue({id: name.toLowerCase().replace(" ",""), user: name});
@@ -66,12 +46,11 @@ const handleSubmit = (event ) => {
     userName ? axios.post(`http://localhost:3000/api/users/${userName}`)
     .then(res => {    
         setUsers(res.data)
-        // setValue({})
     }) : null
 }
 
 return (
-    <section tw="bg-mono-100 dark:bg-mono-700 w-1/3 flex float-left rounded-md ml-4 " key={allUsers}>
+    <section tw="bg-mono-100 dark:bg-mono-700 w-1/3 flex float-left rounded-md ml-20" key={allUsers}>
         <div tw="grid max-w-4xl gap-8 p-8 grid-cols-[repeat(1,1fr)] sm:grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(1,1fr)] w-full">
         <h2 tw="col-span-1 sm:col-span-1 md:col-span-1 text-2xl font-bold">Users</h2>
             {allUsers?.userData?.users.map((user) => (

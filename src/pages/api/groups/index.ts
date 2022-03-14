@@ -14,8 +14,8 @@ export type Group = {
 export const groups = new Map<string, Group>();
 
 
-const addGroup = (name: string, desc: string): Group => {
-  const uuid = uuidv4() as GroupId;
+const addGroup = (name: string, desc: string, customId?: string): Group => {
+  const uuid = (customId ?? uuidv4()) as GroupId;
   groups.set(uuid, {
     uuid,
     name,
@@ -29,7 +29,7 @@ const addMembers = (g: Group, users: UserId[]) => {
   users.forEach((u) => g.members.add(u));
 };
 
-addMembers(addGroup("Admin", "This group is for administrators of the platform."), [
+addMembers(addGroup("Admin", "This group is for administrators of the platform.", "admin"), [
   "alex",
   "mary",
   "kathy",
