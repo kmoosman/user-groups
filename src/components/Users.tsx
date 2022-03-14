@@ -1,13 +1,26 @@
-import { useGetApiUsers, useGetApiUsersId, useGetApiGroups } from "../service/default";
+import { useGetApiUsers, useGetApiUsersId, useGetApiGroups, usePostApiUsersId } from "../service/default";
 import { UsersIcon, UserIcon } from "@heroicons/react/outline";
 import { useState } from 'react';
 import {useDrag} from "react-dnd";
+import { useQueryClient } from 'react-query';
 import User from './User';
 import axios from 'axios';
 
 
 
 export function Users({allUsers, allGroups, setUsers}){
+
+const queryClient = useQueryClient();
+
+const { mutateAsync: addUserToGroup, isSuccess } = usePostApiUsersId({
+    mutation: {
+        onSuccess: (data) => {
+            queryClient.invalidateQueries('/api/users')
+        }
+    }
+});
+
+
 
 // form input values
 const [values, setValue] = useState({
@@ -42,11 +55,7 @@ const handleSubmit = (event ) => {
 
     // Post to users to add a new user 
     const userName = event.target[0].value
-    let usersINfo = allUsers
-    userName ? axios.post(`http://localhost:3000/api/users/${userName}`)
-    .then(res => {    
-        setUsers(res.data)
-    }) : null
+    addUserToGroup({id: userName})
 }
 
 return (
