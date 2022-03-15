@@ -55,7 +55,6 @@ function Group(group) {
             },
             onError: (error) => {
                 setErrorMessage('Opps, the group you have submitted can not be found...🔍');
-                alert('Opps, the group you have submitted can not be found...🔍');
                 setDisplayError(true)
             }
         }

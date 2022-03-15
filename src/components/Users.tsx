@@ -1,10 +1,8 @@
-import { useGetApiUsers, useGetApiUsersId, useGetApiGroups, usePostApiUsersId } from "../service/default";
-import { UsersIcon, UserIcon } from "@heroicons/react/outline";
+import { usePostApiUsersId } from "../service/default";
+import { UserIcon } from "@heroicons/react/outline";
 import { useState } from 'react';
-import {useDrag} from "react-dnd";
 import { useQueryClient } from 'react-query';
 import User from './User';
-import axios from 'axios';
 
 
 
