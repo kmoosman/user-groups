@@ -34,8 +34,6 @@ function User(user) {
     const { mutateAsync: addUserToGroupHook } = usePutApiGroupsIdUser({
         mutation: {
             onSuccess: (data) => {
-                console.log("added user")
-                console.log(data)
                 queryClient.invalidateQueries('/api/users')
                 queryClient.invalidateQueries('/api/groups')
             }

@@ -1,16 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Footer } from "../components/Footer";
 import { GroupList } from "../components/GroupList";
 import { Users } from "../components/Users";
-import { useGetApiGroups, useGetApiUsers, useGetApiUsersId
-, useGetApiGroupsId } from "../service/default";
-import { UsersIcon, UserIcon } from "@heroicons/react/outline";
+import { useGetApiGroups, useGetApiUsers } from "../service/default";
+
 import Link from "next/link";
-import { getStaticProps } from "./swagger";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const Home: NextPage = () => {
   const content = 
@@ -32,8 +28,6 @@ const Home: NextPage = () => {
     query: {
       onSuccess: (data) => {
         setUsers(data);
-        console.log(data)
-        
       }
     }
   });

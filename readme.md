@@ -29,12 +29,38 @@ yarn dev # development server
 yarn build # production build
 ```
 
-## Group Functionality
+## Running the App
 
-Each group will display a list of users associcated with the group. You can also choose to remove a user from a group. This will remove the tag from the user for that group, however I am still working out the kinks on the rerender for users. It currently requires you to click off target (such as in dev tools) & come back for the rerender. The update to all groups state isn't triggering the a rerender of that component. I'd like to reimpliment this by building on the API directly & adding groups to the user object directly instead of looping through the groups object.
+To stand the project up, after running yarn install - run `yarn dev`
 
-## User Functionality
+## Adding Users to a Group
 
-Each user will be displayed with their assigned groups. You can drag a user from users over to the GroupList to assign them to the Admin group. This is currently hard coded as I work to determine to access the drop target to pull the ID, so I can dynamically populate the groupId that makes the call to add the user.
+To add a user to a group, drag a user from the Users List & drop it on the group you would like to add the user to
 
-A new user can also be added at the bottom of the users section.
+## Adding a Group to a User
+
+To add a group to a user, drag the group card and drop it on top of the user
+
+## Removing Users
+
+To remove a user, click the remove button inside the group
+
+## Adding a new user
+
+To add a new user, click the + icon at the bottom of the users list & enter a new user. Once the user has been added, you can add groups to the user using the same functionality as the other cards
+
+## Producing errors
+
+To test basic error handling that has been setup on removing a user from a group, you can change the id in addUserToGroupHook({id: groupId, user: item.id}) to a string that is not a valid group (since groupId's are uuid's, any string will do)
+
+## Shortcomings
+
+In the sake of time, while I added some error handling to the project, I didn't impliment robust error handling throughout the app. If I were buliding this for a production build, I'd take the time to ensure all edge cases were handled & more robust error handling was completed. One of the first places I'd add if I came back to the project would be on the input of a user, adding rules around min characters & providing error messages if they enter a empty string for example.
+
+For the sake of time, I added the new user as a card at the bottom of the users list but I'd like to see this in a modal instead or appear more promenately on the screen, with additioanl fields to build out a more rebust user including first & last name. I'd also make the user id a uuid instead of lowercase first name. Since using the lowercase name, won't allow you to add two users with the same name. I left this functionality because it was already implimented on id: 'john' for example but this should be a uuid to match groups & unsure all users are unique.
+
+I'm not statisfied with the drag functionality for users at the buttom of the list. If you add a new user and try to drag it up to admin, it will scroll up but it's tedius & takes awhile. In a production product I'd make sure this scrolled up much more smoothly.
+
+I also wrote the app mostly in Javascript since I'm more familiar with it than Typescript currently. However, since the rest of the app is in Typescript, with more time I would update to type out the rest of the code.
+
+Lastly, I'd also improve styling in the app. I didn't have time to dive in and fully explore tailwind but I'd like to see if there is the ability to set reusable classes/styles so I'm not replicating the same styles multiple times.

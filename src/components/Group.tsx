@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDeleteApiGroupsIdUser, usePutApiGroupsIdUser} from "../service/default";
 import { useDrop, useDrag } from "react-dnd";
 import { UsersIcon } from "@heroicons/react/outline";
 import { useQueryClient } from 'react-query';
+import { stringify } from 'querystring';
 
 function Group(group) {
+
     const queryClient = useQueryClient();
+    const [errorMessage, setErrorMessage] = useState('')
+    const [displayError, setDisplayError] = useState(false)
+
+
     //Accepts Drop from users 
     const [{canDrop, isOver}, drop] = useDrop(() => ({
         accept: "user",
@@ -41,13 +47,21 @@ function Group(group) {
         }
     });
 
-    const { mutateAsync: removeUserFromGroup, isSuccess } = useDeleteApiGroupsIdUser({
+    const { mutateAsync: removeUserFromGroup, isError } = useDeleteApiGroupsIdUser({
         mutation: {
             onSuccess: (data) => {
                 queryClient.invalidateQueries('/api/groups')
+                setDisplayError(false)
+            },
+            onError: (error) => {
+                setErrorMessage('Opps, the group you have submitted can not be found...🔍');
+                alert('Opps, the group you have submitted can not be found...🔍');
+                setDisplayError(true)
             }
         }
     });
+
+    
 
 
 
@@ -60,6 +74,7 @@ const removeUser = (event: React.MouseEvent<HTMLButtonElement>, user: string, gr
     
     return (
         <div ref={drag}>
+            {displayError ? <h2 tw="bg-red-300 rounded-md mb-2 text-mono-800 p-2">{errorMessage}</h2> : null }
             <article tw="shadow-md bg-white rounded-md text-mono-800 p-4 flex flex-col items-center gap-1" key={group.group.uuid} ref={drop}> 
                 <UsersIcon tw="w-16 h-16 p-0.5 border-4 border-mono-400 rounded-full my-4" />
                 <header tw="text-lg font-bold">{group.group.name}</header>
