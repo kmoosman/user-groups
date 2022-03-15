@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   useRef();
 
   //Groups data fetch & store to state
-  const { data, status: groupStatus, refetch } = useGetApiGroups({
+  const { data, status: groupStatus } = useGetApiGroups({
     query: {
       onSuccess: (data) => {
         setGroups(data);

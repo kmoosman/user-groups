@@ -36,11 +36,13 @@ import { groups } from "../../groups";
  */
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "DELETE") {
+
+  // Check if the id for the group exists in the list of the groups
     if(groups.get(req.query.id)) {
       groups.get(req.query.id)?.members.delete(req.query.user);
       res.status(200).json({ groups: [...groups.values()].map((g) => ({ ...g, members: [...g.members] })) });
     } else {
-      res.status(404).json({ error: "Opps, the group you have submitted can not be found...🔍" });
+      res.status(202).json({ error: "Opps, the group you have submitted can not be found...🔍" });
     }
     
   } else if (req.method === "PUT") {
@@ -49,7 +51,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       groups.get(req.query.id)?.members.add(req.query.user);
       res.status(201).json({ groups: [...groups.values()].map((g) => ({ ...g, members: [...g.members] })) });
     } else {
-      res.status(404).json({ error: "Opps, the group you have submitted can not be found...🔍 The member was not added" });
+      res.status(202).json({ error: "Opps, the group you have submitted can not be found...🔍 The member was not added" });
     }
   } else {
     res.status(405).json({error: "Unable to add the user"});
