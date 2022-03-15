@@ -39,10 +39,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     groups.get(req.query.id)?.members.delete(req.query.user);
     res.status(200).json({ groups: [...groups.values()].map((g) => ({ ...g, members: [...g.members] })) });
   } else if (req.method === "PUT") {
+    console.log(req.query.id)
     groups.get(req.query.id)?.members.add(req.query.user);
-    res.status(201).json({});
+    res.status(201).json({ groups: [...groups.values()].map((g) => ({ ...g, members: [...g.members] })) });
   } else {
-    res.status(405).json({});
+    res.status(405).json({error: "Unrecognized request"});
   }
 };
 
