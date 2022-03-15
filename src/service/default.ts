@@ -361,6 +361,48 @@ export const useGetApiUsersId = <
 };
 
 /**
+ * Add a new user
+ */
+export const usePostApiUsersIdHook = () => {
+  const postApiUsersId = useAxios<void>();
+
+  return (id?: string) => {
+    return postApiUsersId({ url: `/api/users/${id}`, method: "post" });
+  };
+};
+
+export const usePostApiUsersId = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    AsyncReturnType<ReturnType<typeof usePostApiUsersIdHook>>,
+    TError,
+    { id?: string },
+    TContext
+  >;
+}) => {
+  const { mutation: mutationOptions } = options || {};
+
+  const postApiUsersId = usePostApiUsersIdHook();
+
+  const mutationFn: MutationFunction<
+    AsyncReturnType<ReturnType<typeof usePostApiUsersIdHook>>,
+    { id?: string }
+  > = (props) => {
+    const { id } = props || {};
+
+    return postApiUsersId(id);
+  };
+
+  return useMutation<
+    AsyncReturnType<typeof postApiUsersId>,
+    TError,
+    { id?: string },
+    TContext
+  >(mutationFn, mutationOptions);
+};
+/**
  * Gets all the users of the application
  */
 export const useGetApiUsersHook = () => {

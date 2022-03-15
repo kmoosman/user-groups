@@ -10,7 +10,7 @@ export type User = {
 
 export const users: Map<string, User> = new Map();
 
-const addUser = (name: string, customId?: string): User => {
+export const addUser = (name: string, customId?: string): User => {
   const uuid = (customId ?? uuidv4()) as UserId;
   users.set(uuid, {
     uuid,
