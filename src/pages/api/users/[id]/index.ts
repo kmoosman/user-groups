@@ -31,6 +31,7 @@ import { users, UserId } from "../../users"
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const name = req.query.id
+    // I left this as lowercase name because that is what was used for all the other users but I'd like to see this as a uuid instead
     const uuid = name.toLowerCase() as UserId;
     users.set(uuid, {
       uuid,
